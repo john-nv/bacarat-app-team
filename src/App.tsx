@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import bg_game from "./assets/back.jpg";
 import "./App.css";
+import { checkApiParam } from "./components/checkUrl";
 
 const listCard = [
   { v: 1, f: "c1" },
@@ -54,37 +55,46 @@ const listCard = [
   { v: 10, f: "d10" },
   { v: 0, f: "d11" },
   { v: 0, f: "d12" },
-  { v: 0, f: "d13" }
-]
+  { v: 0, f: "d13" },
+];
 
 function App() {
+  // initialState
+  const listBox = Array.from(
+    document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+  );
   const [box, setBox] = useState<any[]>(() =>
     listCard.filter((_, index) => index <= 5)
   );
 
-  const [scorePlayer, setCorePlayer] = useState<any>(null)
-  const [banker, setBanker] = useState<any>(null)
+  // use hook
+  const [scorePlayer, setCorePlayer] = useState<any>(null);
+  const [banker, setBanker] = useState<any>(null);
+  const [changeCard, setChangeCard] = useState<boolean>(false);
 
-  const [changeCard, setChangeCard] = useState<boolean>(false)
+  useEffect(() => {
+    checkApiParam();
+  }, []);
 
-  // handle 
+  // shuffleArray
   const shuffleArray = (array: any[]) => {
-    for (let i:number = array.length - 1; i > 0; i--) {
+    for (let i: number = array.length - 1; i > 0; i--) {
       // Generate random number
-      const j: number = Math.floor(Math.random() * (i + 1))
+      const j: number = Math.floor(Math.random() * (i + 1));
 
-      const temp:any = array[i]
-      array[i] = array[j]
-      array[j] = temp
+      const temp: any = array[i];
+      array[i] = array[j];
+      array[j] = temp;
     }
 
     const newArr = array.filter((_, index) => {
-      return index < 6
-    })
+      return index < 6;
+    });
 
-    setBox(newArr)
-  }
+    setBox(newArr);
+  };
 
+  // render Box
   const renderBox = () => {
     return box.map((item, index) => {
       return (
@@ -102,102 +112,98 @@ function App() {
     });
   };
 
-  const handleFillCard = (ele:HTMLElement ,top:string, right:string) => {
+  // handle Fill Card
+  const handleFillCard = (ele: HTMLElement, top: string, right: string) => {
     ele.style.top = top;
-    ele.style.right = right
-  }
+    ele.style.right = right;
+  };
 
-  // dom element
-  const listBox = Array.from(document.getElementsByClassName('box') as HTMLCollectionOf<HTMLElement>)
-  // Handle animation when play game
+  // Play game
   const handlePlayGame = () => {
-       listBox.forEach((div:HTMLElement, i: number) => {
+    listBox.forEach((div: HTMLElement, i: number) => {
       if (i === 0) {
         setTimeout(() => {
-           handleFillCard(div, '375px', '1200px')
-        }, (i+ 1) * 1000)
+          handleFillCard(div, "375px", "1200px");
+        }, (i + 1) * 1000);
       } else if (i === 1) {
-        setTimeout( () => {
-           handleFillCard(div, '375px', '800px')
-
-        }, (i+ 1) * 1000)
-      }  else if (i === 2) {
-        setTimeout( () => {
-           handleFillCard(div, '375px', '1120px')
-
-        }, (i+ 1) * 1000)
-      }  else if (i === 3) {
-        setTimeout( () => {
-           handleFillCard(div, '375px', '720px')
-          setChangeCard(true)
-        }, (i+ 1) * 1000)
+        setTimeout(() => {
+          handleFillCard(div, "375px", "800px");
+        }, (i + 1) * 1000);
+      } else if (i === 2) {
+        setTimeout(() => {
+          handleFillCard(div, "375px", "1120px");
+        }, (i + 1) * 1000);
+      } else if (i === 3) {
+        setTimeout(() => {
+          handleFillCard(div, "375px", "720px");
+          setChangeCard(true);
+        }, (i + 1) * 1000);
       }
-    })
+    });
 
     shuffleArray(listCard);
   };
 
-if (changeCard === true) {
-  listBox.forEach((div, index) => {
-    console.log(index);
-    console.log(index === 1)
-    if(index === 0) {
-      return setTimeout(()=> {
-        div.classList.add('fill')
-        setCorePlayer(Number(div.id))
-      }, (index + 1) * 1000)
-    } 
-    
-    if(index === 1) {
-      return setTimeout(()=> {
-        div.classList.add('fill')
-        setBanker(Number(div.id))
-        setChangeCard(false)
-      }, (index + 1) * 1000)
-    } 
-  })
-}
+  if (changeCard === true) {
+    listBox.forEach((div, index) => {
+      if (index === 0) {
+        return setTimeout(() => {
+          div.classList.add("fill");
+          setCorePlayer(Number(div.id));
+        }, (index + 1) * 1000);
+      }
 
-if (scorePlayer !== null && banker !== null) {
-  listBox.forEach((div, i) => {
-    if(i == 0 ) {
-     setTimeout(() => {
-      div.style.right = "970px";
-      div.style.top = "400px";
-     }, 1000)
-    }
-    if (i == 2) {
-      setTimeout(() => {
-        div.style.right = "890px";
-        div.style.top = "400px";
-        div.classList.add('fill')
-      }, 1000)
-    }
-})
-}
+      if (index === 1) {
+        return setTimeout(() => {
+          div.classList.add("fill");
+          setBanker(Number(div.id));
+          setChangeCard(false);
+        }, (index + 1) * 1000);
+      }
+    });
+  }
 
+  if (scorePlayer !== null && banker !== null) {
+    listBox.forEach((div, i) => {
+      if (i == 0) {
+        setTimeout(() => {
+          div.style.right = "970px";
+          div.style.top = "400px";
+        }, 1000);
+      }
+      if (i == 2) {
+        setTimeout(() => {
+          div.style.right = "890px";
+          div.style.top = "400px";
+          div.classList.add("fill");
+        }, 1000);
+      }
+    });
+  }
 
   return (
-    <div id="banner">
-      <div></div>
-      <div
-        className="wrapper"
-        style={{
-          backgroundImage: `url(${bg_game})`,
-        }}
-      >
-        <div className="showScore">
-          <p className="score-player score">{scorePlayer ? scorePlayer : ''}</p>
-          <p className="score-banker score">{ banker ? banker : ''}</p>
-        </div> 
-        <button className="btn" onClick={handlePlayGame}>
-          Play Game
-        </button>
-      </div>
-    
-      {renderBox()}
+    <>
+      <div id="banner">
+        <div
+          className="wrapper"
+          style={{
+            backgroundImage: `url(${bg_game})`,
+          }}
+        >
+          <div className="showScore">
+            <p className="score-player score">
+              {scorePlayer ? scorePlayer : ""}
+            </p>
+            <p className="score-banker score">{banker ? banker : ""}</p>
+          </div>
+          <button className="btn" onClick={handlePlayGame}>
+            Play Game
+          </button>
+        </div>
 
-    </div>
+        {renderBox()}
+      </div>
+    </>
   );
 }
 
