@@ -62,14 +62,14 @@ function App() {
     listCard.filter((_, index) => index <= 5)
   );
 
-  const [scorePlayer, setCorePlayer] = useState<number>()
-  const [banker, setBanker] = useState<number>()
+  const [scorePlayer, setCorePlayer] = useState<any>(null)
+  const [banker, setBanker] = useState<any>(null)
 
   const [changeCard, setChangeCard] = useState<boolean>(false)
 
   // handle 
   const shuffleArray = (array: any[]) => {
-    for (let i: number = array.length - 1; i > 0; i--) {
+    for (let i:number = array.length - 1; i > 0; i--) {
       // Generate random number
       const j: number = Math.floor(Math.random() * (i + 1))
 
@@ -102,58 +102,82 @@ function App() {
     });
   };
 
-  // Handle PlayGame
-  const desk = document.querySelectorAll(".box")
+  const handleFillCard = (ele:HTMLElement ,top:string, right:string) => {
+    ele.style.top = top;
+    ele.style.right = right
+  }
+
+  // dom element
+  const listBox = Array.from(document.getElementsByClassName('box') as HTMLCollectionOf<HTMLElement>)
+
+  // Handle animation when play game
   const handlePlayGame = () => {
-     desk.forEach((div:any, i: number) => {
+     listBox.forEach((div:any, i: number) => {
       if (i === 0) {
-        setTimeout(() => {
-          div.style.top = "375px";
-          div.style.right = "1200px";
+        setTimeout(async() => {
+          await handleFillCard(div, '375px', '1200px')
         }, (i+ 1) * 1000)
       } else if (i === 1) {
-        setTimeout(() => {
-          div.style.top = "375px";
-          div.style.right = "800px";
+        setTimeout(async () => {
+          await handleFillCard(div, '375px', '800px')
+
         }, (i+ 1) * 1000)
       }  else if (i === 2) {
-        setTimeout(() => {
-          div.style.top = "375px";
-          div.style.right = "1120px";
+        setTimeout(async () => {
+          await handleFillCard(div, '375px', '1120px')
+
         }, (i+ 1) * 1000)
       }  else if (i === 3) {
-        setTimeout(() => {
-          div.style.top = "375px"
-          div.style.right = "720px"
-          setChangeCard(!changeCard);
+        setTimeout(async () => {
+          await handleFillCard(div, '375px', '720px')
+          setChangeCard(!changeCard)
         }, (i+ 1) * 1000)
       }
     })
+
     shuffleArray(listCard);
   };
 
-  if (changeCard) {
-      desk.forEach((div, i) => {
-        if(i == 0) {
-           setTimeout(()=> {
-            div.classList.add('fill')
-            setCorePlayer(Number(div.id))
-          }, (i + 1) * 1000)
-        } 
-        
-        if(i == 1) {
-          setTimeout(()=> {
-            div.classList.add('fill')
-            console.log(Number(div.id));
-            setBanker(Number(div.id))
-          }, (i + 1) * 1000)
-        } 
-      })
-  }
+if (changeCard) {
+  listBox.forEach((div, i) => {
+    if(i === 0) {
+       setTimeout(()=> {
+        div.classList.add('fill')
+        setCorePlayer(Number(div.id))
+      }, (i + 1) * 1000)
+    } 
+    if(i === 1) {
+      setTimeout(()=> {
+        div.classList.add('fill')
+        console.log(Number(div.id));
+        setBanker(Number(div.id))
+      }, (i + 1) * 1000)
+    } 
+  })
+}
+
+if (scorePlayer !== null && banker !== null) {
+  listBox.forEach((div, i) => {
+    if(i == 0 ) {
+     setTimeout(() => {
+      div.style.right = "970px";
+      div.style.top = "400px";
+     }, 1000)
+    }
+    if (i == 2) {
+      setTimeout(() => {
+        div.style.right = "890px";
+        div.style.top = "400px";
+        div.classList.add('fill')
+      }, 1000)
+    }
+})
+}
 
 
   return (
     <div id="banner">
+      <div></div>
       <div
         className="wrapper"
         style={{
