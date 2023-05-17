@@ -109,28 +109,27 @@ function App() {
 
   // dom element
   const listBox = Array.from(document.getElementsByClassName('box') as HTMLCollectionOf<HTMLElement>)
-
   // Handle animation when play game
   const handlePlayGame = () => {
-     listBox.forEach((div:any, i: number) => {
+       listBox.forEach((div:HTMLElement, i: number) => {
       if (i === 0) {
-        setTimeout(async() => {
-          await handleFillCard(div, '375px', '1200px')
+        setTimeout(() => {
+           handleFillCard(div, '375px', '1200px')
         }, (i+ 1) * 1000)
       } else if (i === 1) {
-        setTimeout(async () => {
-          await handleFillCard(div, '375px', '800px')
+        setTimeout( () => {
+           handleFillCard(div, '375px', '800px')
 
         }, (i+ 1) * 1000)
       }  else if (i === 2) {
-        setTimeout(async () => {
-          await handleFillCard(div, '375px', '1120px')
+        setTimeout( () => {
+           handleFillCard(div, '375px', '1120px')
 
         }, (i+ 1) * 1000)
       }  else if (i === 3) {
-        setTimeout(async () => {
-          await handleFillCard(div, '375px', '720px')
-          setChangeCard(!changeCard)
+        setTimeout( () => {
+           handleFillCard(div, '375px', '720px')
+          setChangeCard(true)
         }, (i+ 1) * 1000)
       }
     })
@@ -138,20 +137,23 @@ function App() {
     shuffleArray(listCard);
   };
 
-if (changeCard) {
-  listBox.forEach((div, i) => {
-    if(i === 0) {
-       setTimeout(()=> {
+if (changeCard === true) {
+  listBox.forEach((div, index) => {
+    console.log(index);
+    console.log(index === 1)
+    if(index === 0) {
+      return setTimeout(()=> {
         div.classList.add('fill')
         setCorePlayer(Number(div.id))
-      }, (i + 1) * 1000)
+      }, (index + 1) * 1000)
     } 
-    if(i === 1) {
-      setTimeout(()=> {
+    
+    if(index === 1) {
+      return setTimeout(()=> {
         div.classList.add('fill')
-        console.log(Number(div.id));
         setBanker(Number(div.id))
-      }, (i + 1) * 1000)
+        setChangeCard(false)
+      }, (index + 1) * 1000)
     } 
   })
 }
