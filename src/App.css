@@ -19,19 +19,13 @@
   flex-direction: column;
 }
 
-.main {
-  width: 600px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-}
 
 .box {
   position: absolute;
   top: 145px;
   right: 444px;
-  width: 100px;
-  height: 140px;
+  width: 75px;
+  height: 100px;
   transition: all 0.5s;
   transform-style: preserve-3d;
 }
@@ -56,12 +50,20 @@
 }
 
 .btn {
-  margin-top: 20px;
+  transform: translateY(20px)
 }
-
 
 .box.fill {
   transform: rotateY(180deg);
 }
 
+.showScore {
+  display: flex;
+  width: 100px;
+  align-items: center;
+}
+
+.score {
+  font-size: 40px
+}
 

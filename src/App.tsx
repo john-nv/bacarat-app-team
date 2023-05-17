@@ -1,6 +1,5 @@
 import { useState } from "react";
 import bg_game from "./assets/back.jpg";
-import hidden from "./assets/images/hidden.png";
 import "./App.css";
 
 const listCard = [
@@ -55,15 +54,36 @@ const listCard = [
   { v: 10, f: "d10" },
   { v: 0, f: "d11" },
   { v: 0, f: "d12" },
-  { v: 0, f: "d13" },
-];
+  { v: 0, f: "d13" }
+]
 
 function App() {
   const [box, setBox] = useState<any[]>(() =>
-    listCard.filter((item, index) => index <= 5)
+    listCard.filter((_, index) => index <= 5)
   );
 
+  const [scorePlayer, setCorePlayer] = useState<number>()
+  const [banker, setBanker] = useState<number>()
+
   const [changeCard, setChangeCard] = useState<boolean>(false)
+
+  // handle 
+  const shuffleArray = (array: any[]) => {
+    for (let i: number = array.length - 1; i > 0; i--) {
+      // Generate random number
+      const j: number = Math.floor(Math.random() * (i + 1))
+
+      const temp:any = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    }
+
+    const newArr = array.filter((_, index) => {
+      return index < 6
+    })
+
+    setBox(newArr)
+  }
 
   const renderBox = () => {
     return box.map((item, index) => {
@@ -82,27 +102,10 @@ function App() {
     });
   };
 
-  const shuffleArray = (array: any[]) => {
-    for (let i: number = array.length - 1; i > 0; i--) {
-      // Generate random number
-      const j: number = Math.floor(Math.random() * (i + 1))
-
-      const temp:any = array[i]
-      array[i] = array[j]
-      array[j] = temp
-    }
-
-    const newArr = array.filter((_, index) => {
-      return index < 6
-    })
-
-    setBox(newArr)
-  };
-
   // Handle PlayGame
   const desk = document.querySelectorAll(".box")
   const handlePlayGame = () => {
-    desk.forEach((div:any, i: number) => {
+     desk.forEach((div:any, i: number) => {
       if (i === 0) {
         setTimeout(() => {
           div.style.top = "375px";
@@ -111,34 +114,43 @@ function App() {
       } else if (i === 1) {
         setTimeout(() => {
           div.style.top = "375px";
-          div.style.right = "700px";
+          div.style.right = "800px";
         }, (i+ 1) * 1000)
       }  else if (i === 2) {
         setTimeout(() => {
           div.style.top = "375px";
-          div.style.right = "1050px";
+          div.style.right = "1120px";
         }, (i+ 1) * 1000)
       }  else if (i === 3) {
         setTimeout(() => {
           div.style.top = "375px"
-          div.style.right = "550px"
+          div.style.right = "720px"
           setChangeCard(!changeCard);
         }, (i+ 1) * 1000)
       }
     })
-
     shuffleArray(listCard);
   };
 
   if (changeCard) {
-    desk.forEach((div, i) => {
-      if(i<=1) {
-        setTimeout(()=> {
-          div.classList.add('fill')
-      }, (i + 1) * 1000)
-      }
-    })
+      desk.forEach((div, i) => {
+        if(i == 0) {
+           setTimeout(()=> {
+            div.classList.add('fill')
+            setCorePlayer(Number(div.id))
+          }, (i + 1) * 1000)
+        } 
+        
+        if(i == 1) {
+          setTimeout(()=> {
+            div.classList.add('fill')
+            console.log(Number(div.id));
+            setBanker(Number(div.id))
+          }, (i + 1) * 1000)
+        } 
+      })
   }
+
 
   return (
     <div id="banner">
@@ -148,15 +160,17 @@ function App() {
           backgroundImage: `url(${bg_game})`,
         }}
       >
-        <div className="main">
-        </div>
+        <div className="showScore">
+          <p className="score-player score">{scorePlayer ? scorePlayer : ''}</p>
+          <p className="score-banker score">{ banker ? banker : ''}</p>
+        </div> 
         <button className="btn" onClick={handlePlayGame}>
-        Play Game
-      </button>
+          Play Game
+        </button>
       </div>
     
-
       {renderBox()}
+
     </div>
   );
 }
