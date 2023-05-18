@@ -72,7 +72,7 @@ function App() {
   const [scorePlayer, setCorePlayer] = useState<any>(null);
   const [banker, setBanker] = useState<any>(null);
 
-  // check APIkey path Url 
+  // check APIkey path Url
   useEffect(() => {
     checkApiParam();
   }, []);
@@ -124,7 +124,7 @@ function App() {
     listBox.forEach((div: HTMLElement, i: number) => {
       if (i === 0) {
         setTimeout(() => {
-          handleFillCard(div, "175px", "600px");
+          handleFillCard(div, "175px", "625px");
         }, (i + 1) * 1000);
       } else if (i === 1) {
         setTimeout(() => {
@@ -132,16 +132,18 @@ function App() {
         }, (i + 1) * 1000);
       } else if (i === 2) {
         setTimeout(() => {
-          handleFillCard(div, "175px", "520px");
+          handleFillCard(div, "175px", "550px");
         }, (i + 1) * 1000);
       } else if (i === 3) {
         setTimeout(async () => {
-          handleFillCard(div, "175px", "120px");
-          await XuLyLatBai()
-          await handleScore()
-          await handleReturn()
-          await handleScore2()
-          await handleReturn2()
+          handleFillCard(div, "175px", "125px");
+          await XuLyLatBai();
+          await handleScore();
+          await handleReturn();
+          await handleScore2();
+          await handleReturn2();
+          await handleCardThree();
+          await handleCardThreeBanker();
         }, (i + 1) * 1000);
       }
     });
@@ -149,27 +151,78 @@ function App() {
     shuffleArray(listCard);
   };
 
+  
+
   // Xu li quay lai
+  const handleCardThree = () => {
+    return new Promise<void>((resolve) => {
+      return listBox.forEach(  (div: HTMLElement, i: number) => {
+        if (i == 4) {
+          setCorePlayer((prevState: number) => {
+            if (prevState < 5) {
+              setTimeout(() => {
+                handleFillCard(div, "175px", "700px")
+                div.classList.add("fill")
+                resolve()
+              }, 1000) 
+              if (prevState + Number(div.id) === 10) {
+                return 0
+              } else if (prevState + Number(div.id) > 10) {
+                return (prevState + Number(div.id)) - 10 
+              }
+              return prevState + Number(div.id)
+            }
+            return prevState
+          })
+        }
+      });
+    });
+  };
 
-
+  const handleCardThreeBanker = () => {
+    return new Promise<void>((resolve) => {
+      return listBox.forEach((div: HTMLElement, i: number) => {
+        if (i == 5) {
+          setBanker((prevState: number) => {
+            console.log(prevState);
+            console.log(prevState < 5);
+            if (prevState < 5) {
+              setTimeout(() => {
+                handleFillCard(div, "175px", "50px")
+                div.classList.add("fill")
+                resolve()
+              }, 1000) 
+              if (prevState + Number(div.id) === 10) {
+                return 0
+              } else if (prevState + Number(div.id) > 10) {
+                return (prevState + Number(div.id)) - 10 
+              }
+              return prevState + Number(div.id)
+            }
+           
+            return prevState
+          })
+        }
+      });
+    });
+  };
 
   const handleReturn = () => {
     return new Promise<void>((resolve) => {
       listBox.forEach((div: HTMLElement, i: number) => {
         if (i === 0) {
           setTimeout(() => {
-            handleFillCard(div, "175px", "600px");
+            handleFillCard(div, "175px", "625px");
           }, 1000);
         } else if (i === 2) {
           setTimeout(() => {
-            handleFillCard(div, "175px", "520px")
-            resolve()
+            handleFillCard(div, "175px", "550px");
+            resolve();
           }, 1000);
         }
-      })
-    })
-  }
-
+      });
+    });
+  };
 
   const handleReturn2 = () => {
     return new Promise<void>((resolve) => {
@@ -180,13 +233,13 @@ function App() {
           }, 1000);
         } else if (i === 3) {
           setTimeout(() => {
-            handleFillCard(div, "175px", "120px")
-            resolve()
+            handleFillCard(div, "175px", "120px");
+            resolve();
           }, 1000);
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   // Xu ly lat bai
   function XuLyLatBai() {
@@ -194,26 +247,26 @@ function App() {
       listBox.forEach((div, index) => {
         if (index === 0) {
           setTimeout(() => {
-            div.classList.add("fill")
+            div.classList.add("fill");
             setCorePlayer((prevState: number) => {
-              if (Number(div.id) == 10) {
-                return prevState + 0
+              if (Number(div.id) === 10) {
+                return 0;
               }
-              return prevState + Number(div.id)
-            })
+              return prevState + Number(div.id);
+            });
           }, (index + 1) * 1000);
         }
 
         if (index === 1) {
           setTimeout(() => {
-            div.classList.add("fill")
+            div.classList.add("fill");
             setBanker((prevState: number) => {
               if (Number(div.id) == 10) {
-                return prevState + 0
+                return 0;
               }
-              return prevState + Number(div.id)
-            })
-            resolve()
+              return prevState + Number(div.id);
+            });
+            resolve();
           }, (index + 1) * 1000);
         }
       });
@@ -225,29 +278,29 @@ function App() {
       listBox.forEach((div, i) => {
         if (i == 0) {
           setTimeout(() => {
-            div.style.right = "330px";
+            div.style.right = "350px";
             div.style.top = "220px";
           }, 1000);
         }
         if (i == 2) {
           setTimeout(() => {
             div.style.top = "220px";
-            div.style.right = "400px";
-            div.classList.add("fill")
+            div.style.right = "420px";
+            div.classList.add("fill");
             setCorePlayer((prevState: number) => {
               if (prevState + Number(div.id) == 10) {
-                return 0
+                return 0;
               } else if (prevState + Number(div.id) > 10) {
-                return (prevState + Number(div.id)) - 10
+                return prevState + Number(div.id) - 10;
               }
-              return prevState + Number(div.id)
-            })
-            resolve()
-          }, 1000)
+              return prevState + Number(div.id);
+            });
+            resolve();
+          }, 1000);
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   const handleScore2 = () => {
     return new Promise<void>((resolve) => {
@@ -262,26 +315,21 @@ function App() {
           setTimeout(() => {
             div.style.top = "220px";
             div.style.right = "400px";
-            div.classList.add("fill")
+            div.classList.add("fill");
             setBanker((prevState: number) => {
-              if (prevState + Number(div.id) == 10) {
-                return 0
+              if (prevState + Number(div.id) === 10) {
+                return 0;
               } else if (prevState + Number(div.id) > 10) {
-                return (prevState + Number(div.id)) - 10
+                return prevState + Number(div.id) - 10;
               }
-              return prevState + Number(div.id)
-            })
-            resolve()
-          }, 1000)
+              return prevState + Number(div.id);
+            });
+            resolve();
+          }, 1000);
         }
-      })
-    })
-  }
-
-
-
-
-
+      });
+    });
+  };
 
   // main
   return (
@@ -294,10 +342,8 @@ function App() {
           }}
         >
           <div className="showScore">
-            <p className="score-player score">
-              {scorePlayer == 0 || scorePlayer == 10 ? '0' : scorePlayer > 10 ? scorePlayer - 10 : scorePlayer ? scorePlayer : ""}
-            </p>
-            <p className="score-banker score">{banker == 0 || banker == 10 ? '0' : banker > 10 ? banker - 10 : banker ? banker : ""}</p>
+            <p className="score-player score">{scorePlayer}</p>
+            <p className="score-banker score">{banker}</p>
           </div>
           <button className="btn" onClick={handlePlayGame}>
             Play Game
