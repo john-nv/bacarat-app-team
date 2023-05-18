@@ -3,6 +3,7 @@ import bg_game from "./assets/back.jpg";
 import "./App.css";
 import { checkApiParam } from "./components/checkUrl";
 
+// Cards Default
 const listCard = [
   { v: 1, f: "c1" },
   { v: 2, f: "c2" },
@@ -70,8 +71,8 @@ function App() {
   // use hook
   const [scorePlayer, setCorePlayer] = useState<any>(null);
   const [banker, setBanker] = useState<any>(null);
-  const [changeCard, setChangeCard] = useState<boolean>(false);
 
+    // check APIkey path Url 
   useEffect(() => {
     checkApiParam();
   }, []);
@@ -123,20 +124,20 @@ function App() {
     listBox.forEach((div: HTMLElement, i: number) => {
       if (i === 0) {
         setTimeout(() => {
-          handleFillCard(div, "375px", "1200px");
+          handleFillCard(div, "175px", "600px");
         }, (i + 1) * 1000);
       } else if (i === 1) {
         setTimeout(() => {
-          handleFillCard(div, "375px", "800px");
+          handleFillCard(div, "175px", "200px");
         }, (i + 1) * 1000);
       } else if (i === 2) {
         setTimeout(() => {
-          handleFillCard(div, "375px", "1120px");
+          handleFillCard(div, "175px", "520px");
         }, (i + 1) * 1000);
       } else if (i === 3) {
         setTimeout(() => {
-          handleFillCard(div, "375px", "720px");
-          setChangeCard(true);
+          handleFillCard(div, "175px", "120px");
+          XuLyLatBai()
         }, (i + 1) * 1000);
       }
     });
@@ -144,46 +145,92 @@ function App() {
     shuffleArray(listCard);
   };
 
-  if (changeCard === true) {
-    listBox.forEach((div, index) => {
-      if (index === 0) {
-        return setTimeout(() => {
-          div.classList.add("fill");
-          setCorePlayer(Number(div.id));
-        }, (index + 1) * 1000);
-      }
-
-      if (index === 1) {
-        return setTimeout(() => {
-          div.classList.add("fill");
-          setBanker(Number(div.id));
-          setChangeCard(false);
-        }, (index + 1) * 1000);
-      }
-    });
+// Xu li quay lai
+  const handleReturn = () => {
+    listBox.forEach((div: HTMLElement, i: number) => {
+      if (i === 0) {
+        setTimeout(() => {
+          handleFillCard(div, "175px", "600px");
+        },  1000);
+      }  else if (i === 2) {
+        setTimeout(() => {
+          handleFillCard(div, "175px", "520px");
+        },  1000);
+      } 
+    })
   }
 
-  if (scorePlayer !== null && banker !== null) {
-    listBox.forEach((div, i) => {
-      if (i == 0) {
-        setTimeout(() => {
-          div.style.right = "970px";
-          div.style.top = "400px";
-        }, 1000);
-      }
-      if (i == 2) {
-        setTimeout(() => {
-          div.style.right = "890px";
-          div.style.top = "400px";
-          div.classList.add("fill");
-        }, 1000);
-      }
-    });
-  }
+// Xu ly lat bai
+const XuLyLatBai = () => {
+  listBox.forEach((div, index) => {
+    if (index === 0) {
+      setTimeout(() => {
+        div.classList.add("fill")
+        setCorePlayer(Number(div.id))
+        console.log(scorePlayer, Number(div.id))
+      }, (index + 1) * 1000);
+    }
 
+    if (index === 1) {
+      setTimeout(() => {
+        div.classList.add("fill")
+        setBanker(Number(div.id))
+        console.log(scorePlayer);
+        handleScore()
+      }, (index + 1) * 1000);
+    }
+  });
+}
+
+// Xu ly tinh diem
+//   const handleScore =(callback: any) => {
+//     listBox.forEach((div, i) => {
+//       if (i == 0) {
+//         setTimeout(() => {
+//           div.style.right = "330px";
+//           div.style.top = "220px";
+//         }, 1000);
+//       }
+//       if (i == 2) {
+//         setTimeout(() => {
+//           div.style.top = "220px";
+//           div.style.right = "400px";
+//           div.classList.add("fill")
+//           console.log(scorePlayer)
+//           console.log(scorePlayer + Number(div.id));
+//           setCorePlayer(scorePlayer + Number(div.id))
+//           callback()
+//         }, 1000)
+//       }
+//     })
+// }
+const handleScore =() => {
+  listBox.forEach((div, i) => {
+    if (i == 0) {
+      setTimeout(() => {
+        div.style.right = "330px";
+        div.style.top = "220px";
+        console.log(scorePlayer)
+      }, 1000);
+    }
+    if (i == 2) {
+      setTimeout(() => {
+        div.style.top = "220px";
+        div.style.right = "400px";
+        div.classList.add("fill")
+        console.log(scorePlayer)
+        setCorePlayer(scorePlayer + Number(div.id))
+      }, 1000)
+    }
+  })
+}
+
+
+
+// main
   return (
-    <>
-      <div id="banner">
+    <div id="banner">
+      <div className="relative">
         <div
           className="wrapper"
           style={{
@@ -192,9 +239,9 @@ function App() {
         >
           <div className="showScore">
             <p className="score-player score">
-              {scorePlayer ? scorePlayer : ""}
+              {scorePlayer == 0 || scorePlayer == 10 ? '0' : scorePlayer ? scorePlayer : ""}
             </p>
-            <p className="score-banker score">{banker ? banker : ""}</p>
+            <p className="score-banker score">{banker == 0 || banker == 10 ? '0' : banker ?  banker : ""}</p>
           </div>
           <button className="btn" onClick={handlePlayGame}>
             Play Game
@@ -203,7 +250,7 @@ function App() {
 
         {renderBox()}
       </div>
-    </>
+    </div>
   );
 }
 
