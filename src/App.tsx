@@ -135,9 +135,10 @@ function App() {
           handleFillCard(div, "175px", "520px");
         }, (i + 1) * 1000);
       } else if (i === 3) {
-        setTimeout(() => {
+        setTimeout(async () => {
           handleFillCard(div, "175px", "120px");
-          XuLyLatBai()
+          await XuLyLatBai()
+          handleScore(handleReturn)
         }, (i + 1) * 1000);
       }
     });
@@ -146,7 +147,31 @@ function App() {
   };
 
 // Xu li quay lai
-  const handleReturn = () => {
+
+// const handleScore2 =(callback: any) => {
+//   listBox.forEach((div, i) => {
+//     if (i == 1) {
+//       setTimeout(() => {
+//         div.style.right = "330px";
+//         div.style.top = "220px";
+//       }, 2000);
+//     }
+//     if (i == 3) {
+//       setTimeout(() => {
+//         div.style.top = "220px";
+//         div.style.right = "400px";
+//         div.classList.add("fill")
+//         setBanker((prevState: number) => {
+//           console.log(prevState);
+//           return prevState + Number(div.id)
+//         })
+//         callback()
+//       }, 2000)
+//     }
+//   })
+// }
+
+  const handleReturn = (callback: () => void) => {
     listBox.forEach((div: HTMLElement, i: number) => {
       if (i === 0) {
         setTimeout(() => {
@@ -154,75 +179,84 @@ function App() {
         },  1000);
       }  else if (i === 2) {
         setTimeout(() => {
-          handleFillCard(div, "175px", "520px");
+          handleFillCard(div, "175px", "520px")
+          callback()
         },  1000);
       } 
     })
   }
 
 // Xu ly lat bai
-const XuLyLatBai = () => {
-  listBox.forEach((div, index) => {
-    if (index === 0) {
-      setTimeout(() => {
-        div.classList.add("fill")
-        setCorePlayer(Number(div.id))
-        console.log(scorePlayer, Number(div.id))
-      }, (index + 1) * 1000);
-    }
-
-    if (index === 1) {
-      setTimeout(() => {
-        div.classList.add("fill")
-        setBanker(Number(div.id))
-        console.log(scorePlayer);
-        handleScore()
-      }, (index + 1) * 1000);
-    }
+function XuLyLatBai() {
+  return new Promise<void>((resolve) => {
+    listBox.forEach((div, index) => {
+      if (index === 0) {
+        setTimeout(() => {
+          div.classList.add("fill")
+          setCorePlayer((prevState: number) => {
+            return  prevState + Number(div.id)
+          })
+        }, (index + 1) * 1000);
+      }
+  
+      if (index === 1) {
+        setTimeout(() => {
+          div.classList.add("fill")
+          setBanker((prevState: number) => {
+            return  prevState + Number(div.id)
+          })
+          resolve()
+        }, (index + 1) * 1000);
+      }
+    });
   });
 }
 
-// Xu ly tinh diem
-//   const handleScore =(callback: any) => {
-//     listBox.forEach((div, i) => {
-//       if (i == 0) {
-//         setTimeout(() => {
-//           div.style.right = "330px";
-//           div.style.top = "220px";
-//         }, 1000);
-//       }
-//       if (i == 2) {
-//         setTimeout(() => {
-//           div.style.top = "220px";
-//           div.style.right = "400px";
-//           div.classList.add("fill")
-//           console.log(scorePlayer)
-//           console.log(scorePlayer + Number(div.id));
-//           setCorePlayer(scorePlayer + Number(div.id))
-//           callback()
-//         }, 1000)
-//       }
-//     })
+// const XuLyLatBai = () => {
+//   listBox.forEach((div, index) => {
+//     if (index === 0) {
+//       setTimeout(() => {
+//         div.classList.add("fill")
+//         setCorePlayer((prevState: number) => {
+//           return  prevState + Number(div.id)
+//         })
+//       }, (index + 1) * 1000);
+//     }
+
+//     if (index === 1) {
+//       setTimeout(() => {
+//         div.classList.add("fill")
+//         setBanker((prevState: number) => {
+//           return  prevState + Number(div.id)
+//         })
+//         handleScore(handleReturn)
+//       }, (index + 1) * 1000);
+//     }
+//   });
 // }
-const handleScore =() => {
-  listBox.forEach((div, i) => {
-    if (i == 0) {
-      setTimeout(() => {
-        div.style.right = "330px";
-        div.style.top = "220px";
-        console.log(scorePlayer)
-      }, 1000);
-    }
-    if (i == 2) {
-      setTimeout(() => {
-        div.style.top = "220px";
-        div.style.right = "400px";
-        div.classList.add("fill")
-        console.log(scorePlayer)
-        setCorePlayer(scorePlayer + Number(div.id))
-      }, 1000)
-    }
-  })
+
+// Xu ly tinh diem
+  const handleScore =(callback: any) => {
+    listBox.forEach((div, i) => {
+      if (i == 0) {
+        setTimeout(() => {
+          div.style.right = "330px";
+          div.style.top = "220px";
+        }, 1000);
+      }
+      if (i == 2) {
+        setTimeout(() => {
+          div.style.top = "220px";
+          div.style.right = "400px";
+          div.classList.add("fill")
+          setCorePlayer((prevState: number) => {
+            console.log(prevState);
+            return prevState + Number(div.id)
+          })
+          callback()
+        }, 1000)
+      }
+    })
 }
 
 
