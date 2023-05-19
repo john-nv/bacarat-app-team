@@ -72,7 +72,7 @@ function App() {
   // use hook
   const [scorePlayer, setCorePlayer] = useState<any>(null);
   const [banker, setBanker] = useState<any>(null);
-  const [result, setResult] = useState<any>({
+  const [result, setResult] = useState<object>({
     player: null,
     banker: null,
   });
@@ -142,26 +142,16 @@ function App() {
       } else if (i === 3) {
         setTimeout(async () => {
           handleFillCard(div, "175px", "125px");
-          try {
-            console.log(1);
+       
             await XuLyLatBai();
-            console.log(2);
             await handleScore();
-            console.log(3);
             await handleReturn();
-            console.log(4);
             await handleScore2();
-            console.log(5);
             await handleReturn2();
-            console.log(6);
             await handleCardThree();
-            console.log(7);
             await handleCardThreeBanker();
-            console.log(8);
             await handleResult();
-          } catch (error) {
-            console.log("loi");
-          }
+       
         }, (i + 1) * 1000);
       }
     });
@@ -220,12 +210,12 @@ function App() {
               if (prevState + Number(div.id) == 10) {
                 return 0;
               } else if (prevState + Number(div.id) > 10) {
-                setResult((prev: any) => {
+                setResult((prev: object) => {
                   return { ...prev, player: prevState + Number(div.id) - 10 };
                 });
                 return prevState + Number(div.id) - 10;
               }
-              setResult((prev: any) => {
+              setResult((prev: object) => {
                 return { ...prev, player: prevState + Number(div.id) };
               });
               return prevState + Number(div.id);
@@ -255,7 +245,7 @@ function App() {
               if (prevState + Number(div.id) === 10) {
                 return 0;
               } else if (prevState + Number(div.id) > 10) {
-                setResult((prev: any) => {
+                setResult((prev: object) => {
                   return setResult({
                     ...prev,
                     banker: prevState + Number(div.id) - 10,
@@ -264,7 +254,7 @@ function App() {
                 return prevState + Number(div.id) - 10;
               }
 
-              setResult((prev: any) => {
+              setResult((prev: object) => {
                 return setResult({
                   ...prev,
                   banker: prevState + Number(div.id),
@@ -323,17 +313,16 @@ function App() {
                 handleFillCard(div, "175px", "700px");
                 div.classList.add("fill");
 
-              
               }, 1000);
               if (prevState + Number(div.id) === 10) {
-                setResult((prev: any) => {
+                setResult((prev: object) => {
                   return setResult({ ...prev, player: 0 });
                 });
 
                 resolve();
                 return 0;
               } else if (prevState + Number(div.id) > 10) {
-                setResult((prev: any) => {
+                setResult((prev: object) => {
                   return setResult({
                     ...prev,
                     player: prevState + Number(div.id) - 10,
@@ -344,7 +333,7 @@ function App() {
                 return prevState + Number(div.id) - 10;
               }
 
-              setResult((prev: any) => {
+              setResult((prev: object) => {
                 return setResult({
                   ...prev,
                   player: prevState + Number(div.id),
@@ -356,7 +345,7 @@ function App() {
             }
 
             resolve();
-            setResult((prev: any) => {
+            setResult((prev: object) => {
               return setResult({ ...prev, player: prevState });
             });
             return prevState;
@@ -377,13 +366,13 @@ function App() {
                 div.classList.add("fill");
               }, 1000);
               if (prevState + Number(div.id) === 10) {
-                setResult((prev: any) => {
+                setResult((prev: object) => {
                   return setResult({ ...prev, banker: 0 });
                 });
                 resolve();
                 return 0;
               } else if (prevState + Number(div.id) > 10) {
-                setResult((prev: any) => {
+                setResult((prev: object) => {
                   return setResult({
                     ...prev,
                     banker: prevState + Number(div.id) - 10,
@@ -394,7 +383,7 @@ function App() {
               }
 
               resolve();
-              setResult((prev: any) => {
+              setResult((prev: object) => {
                 return setResult({
                   ...prev,
                   banker: prevState + Number(div.id),
@@ -404,7 +393,7 @@ function App() {
               return prevState + Number(div.id);
             }
 
-            setResult((prev: any) => {
+            setResult((prev: object) => {
               return setResult({ ...prev, banker: prevState });
             });
             resolve();
@@ -418,18 +407,20 @@ function App() {
   const handleResult = () => {
     return new Promise<void>((resolve) => {
       setResult((prev: any) => {
-        if (prev.banker > prev.player) {
-          ele_result.innerHTML = "Banker Win";
+        setTimeout(() => {
+          if (prev.banker > prev.player) {
+            ele_result.innerHTML = "Banker Win";
+            resolve();
+          } else if (prev.player > prev.banker) {
+            ele_result.innerHTML = "Player Win";
+            resolve();
+          } else {
+            resolve();
+            ele_result.innerHTML = "Tie";
+          }
           resolve();
-        } else if (prev.player > prev.banker) {
-          ele_result.innerHTML = "Player Win";
-          resolve();
-        } else {
-          resolve();
-          ele_result.innerHTML = "Tie";
-        }
-        resolve();
-        return prev;
+          return prev;
+        }, 1000)
       });
     });
   };
