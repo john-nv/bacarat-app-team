@@ -6,6 +6,17 @@
   width: 830px;
 }
 
+#result {
+  position: absolute;
+  top: 280px;
+  width: 500px;
+  height: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 50px;
+}
+
 .relative {
   position: relative;
   width: 100%;
@@ -51,11 +62,11 @@
   background-size: cover;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  
+ 
 }
 
 .btn {
-  transform: translateY(20px)
+  transform: translateY(150px)
 }
 
 .box.fill {
