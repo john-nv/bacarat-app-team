@@ -61,7 +61,7 @@ const listCard = [
 
 function App() {
   // initialState
-  const ele_result = document.getElementById('result') as HTMLElement;
+  const ele_result = document.getElementById("result") as HTMLElement;
   const listBox = Array.from(
     document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
   );
@@ -75,7 +75,7 @@ function App() {
   const [result, setResult] = useState<any>({
     player: null,
     banker: null,
-  })
+  });
 
   // check APIkey path Url
   useEffect(() => {
@@ -142,20 +142,25 @@ function App() {
       } else if (i === 3) {
         setTimeout(async () => {
           handleFillCard(div, "175px", "125px");
-          await XuLyLatBai();
-          await handleScore();
-          await handleReturn();
-          await handleScore2();
-          await handleReturn2();
           try {
+            console.log(1);
+            await XuLyLatBai();
+            console.log(2);
+            await handleScore();
+            console.log(3);
+            await handleReturn();
+            console.log(4);
+            await handleScore2();
+            console.log(5);
+            await handleReturn2();
+            console.log(6);
             await handleCardThree();
-          } catch (error) {
-            handleResult()
-          }
-          try {
+            console.log(7);
             await handleCardThreeBanker();
+            console.log(8);
+            await handleResult();
           } catch (error) {
-            handleResult()
+            console.log("loi");
           }
         }, (i + 1) * 1000);
       }
@@ -163,6 +168,7 @@ function App() {
 
     shuffleArray(listCard);
   };
+
 
   // Xu ly lat bai
   function XuLyLatBai() {
@@ -215,13 +221,13 @@ function App() {
                 return 0;
               } else if (prevState + Number(div.id) > 10) {
                 setResult((prev: any) => {
-                  return {...prev, player: prevState + Number(div.id) - 10}
-                })
-                return prevState + Number(div.id) - 10
+                  return { ...prev, player: prevState + Number(div.id) - 10 };
+                });
+                return prevState + Number(div.id) - 10;
               }
-                setResult((prev: any) => {
-                return {...prev, player: prevState + Number(div.id)}
-              })
+              setResult((prev: any) => {
+                return { ...prev, player: prevState + Number(div.id) };
+              });
               return prevState + Number(div.id);
             });
             resolve();
@@ -250,14 +256,20 @@ function App() {
                 return 0;
               } else if (prevState + Number(div.id) > 10) {
                 setResult((prev: any) => {
-                  return setResult({...prev, banker: prevState + Number(div.id) - 10})
-                })
+                  return setResult({
+                    ...prev,
+                    banker: prevState + Number(div.id) - 10,
+                  });
+                });
                 return prevState + Number(div.id) - 10;
               }
 
               setResult((prev: any) => {
-                return setResult({...prev, banker: prevState + Number(div.id)})
-              })
+                return setResult({
+                  ...prev,
+                  banker: prevState + Number(div.id),
+                });
+              });
               return prevState + Number(div.id);
             });
             resolve();
@@ -265,7 +277,7 @@ function App() {
         }
       });
     });
-  }
+  };
 
   const handleReturn = () => {
     return new Promise<void>((resolve) => {
@@ -303,39 +315,52 @@ function App() {
 
   const handleCardThree = () => {
     return new Promise<void>((resolve) => {
-      return listBox.forEach(  (div: HTMLElement, i: number) => {
+      return listBox.forEach((div: HTMLElement, i: number) => {
         if (i == 4) {
           setCorePlayer((prevState: number) => {
             if (prevState < 5) {
-               setTimeout(() => {
-                handleFillCard(div, "175px", "700px")
-                div.classList.add("fill")
-              }, 1000) 
+              setTimeout(() => {
+                handleFillCard(div, "175px", "700px");
+                div.classList.add("fill");
+
+              
+              }, 1000);
               if (prevState + Number(div.id) === 10) {
                 setResult((prev: any) => {
-                  return setResult({...prev, player: 0})
-                })
-                return 0
+                  return setResult({ ...prev, player: 0 });
+                });
+
+                resolve();
+                return 0;
               } else if (prevState + Number(div.id) > 10) {
                 setResult((prev: any) => {
-                  return setResult({...prev, player: (prevState + Number(div.id)) - 10})
-                })
-                
-                return (prevState + Number(div.id)) - 10 
+                  return setResult({
+                    ...prev,
+                    player: prevState + Number(div.id) - 10,
+                  });
+                });
+
+                resolve();
+                return prevState + Number(div.id) - 10;
               }
 
               setResult((prev: any) => {
-                return setResult({...prev, player: (prevState + Number(div.id)) - 10})
-              })
-              return prevState + Number(div.id)
+                return setResult({
+                  ...prev,
+                  player: prevState + Number(div.id),
+                });
+              });
+
+              resolve();
+              return prevState + Number(div.id);
             }
 
-            resolve()
+            resolve();
             setResult((prev: any) => {
-              return setResult({...prev, player: prevState})
-            })
-            return prevState
-          })
+              return setResult({ ...prev, player: prevState });
+            });
+            return prevState;
+          });
         }
       });
     });
@@ -348,64 +373,66 @@ function App() {
           setBanker((prevState: number) => {
             if (prevState < 5) {
               setTimeout(() => {
-                handleFillCard(div, "175px", "50px")
-                div.classList.add("fill")
-                resolve()
-              }, 1000) 
+                handleFillCard(div, "175px", "50px");
+                div.classList.add("fill");
+              }, 1000);
               if (prevState + Number(div.id) === 10) {
-                setResult((prev:any) => {
-                  return setResult({...prev, banker: 0})
-                })
-                
-                return 0
+                setResult((prev: any) => {
+                  return setResult({ ...prev, banker: 0 });
+                });
+                resolve();
+                return 0;
               } else if (prevState + Number(div.id) > 10) {
-                setResult((prev:any) => {
-                  return setResult({...prev, banker: (prevState + Number(div.id)) - 10})
-                })
-                
-                return (prevState + Number(div.id)) - 10 
+                setResult((prev: any) => {
+                  return setResult({
+                    ...prev,
+                    banker: prevState + Number(div.id) - 10,
+                  });
+                });
+                resolve();
+                return prevState + Number(div.id) - 10;
               }
 
-              setResult((prev:any) => {
-                return setResult({...prev, banker: prevState + Number(div.id)})
-              })
-              
-              return prevState + Number(div.id)
+              resolve();
+              setResult((prev: any) => {
+                return setResult({
+                  ...prev,
+                  banker: prevState + Number(div.id),
+                });
+              });
+
+              return prevState + Number(div.id);
             }
-            setResult((prev:any) => {
-              return setResult({...prev, banker: prevState})
-            })
-            resolve()
-            return prevState
-          })
+
+            setResult((prev: any) => {
+              return setResult({ ...prev, banker: prevState });
+            });
+            resolve();
+            return prevState;
+          });
         }
       });
     });
   };
 
   const handleResult = () => {
-    setResult((prev: any) => {
-      console.log(prev)
-      console.log(ele_result);
-      console.log(prev.banker > prev.player);
-      ele_result.innerHTML = 'Tao Win'
-      // console.log(ele_result.innerHTML);
-      console.log(prev.banker < prev.player);
-      console.log(prev.banker == prev.player);
-      // if (prev.banker > prev.player) {
-      //   console.log('banker win');
-      //   ele_result.innerHTML = 'Banker Win'
-      // } else if (prev.player > prev.banker) {
-      //   console.log('playerWin');
-      //   ele_result.innerHTML = 'Player Win'
-      // } else {
-      //   console.log('tie');
-      //   ele_result.innerHTML = 'Tie'
-      // }
-      return prev
-    })
-  }
-
+    return new Promise<void>((resolve) => {
+      setResult((prev: any) => {
+        if (prev.banker > prev.player) {
+          ele_result.innerHTML = "Banker Win";
+          resolve();
+        } else if (prev.player > prev.banker) {
+          ele_result.innerHTML = "Player Win";
+          resolve();
+        } else {
+          resolve();
+          ele_result.innerHTML = "Tie";
+        }
+        resolve();
+        return prev;
+      });
+    });
+  };
 
   // main
   return (
@@ -428,9 +455,7 @@ function App() {
 
         {renderBox()}
 
-        <div id="result">
-          
-        </div>
+        <div id="result"></div>
       </div>
     </div>
   );
