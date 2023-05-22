@@ -76,6 +76,7 @@ function App() {
     player: null,
     banker: null,
   });
+  console.log(result);
 
   useEffect(() => {
     console.log(scorePlayer)
