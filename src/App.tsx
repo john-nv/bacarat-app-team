@@ -62,9 +62,7 @@ const listCard = [
 function App() {
   // initialState
   const ele_result = document.getElementById("result") as HTMLElement;
-  const listBox = Array.from(
-    document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
-  );
+
   const [box, setBox] = useState<any[]>(() =>
     listCard.filter((_, index) => index <= 5)
   );
@@ -108,6 +106,7 @@ function App() {
     setBox(newArr);
   };
 
+  // render Box
   const renderBox = () => {
     return box?.map((item, index) => {
       return (
@@ -125,7 +124,6 @@ function App() {
     });
   };
 
-
   // handle Fill Card
   const handleFillCard = (ele: HTMLElement, top: string, right: string) => {
     ele.style.top = top;
@@ -134,6 +132,9 @@ function App() {
 
   // Play game
   const handlePlayGame = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     listBox.forEach((div: HTMLElement, i: number) => {
       if (i === 0) {
         setTimeout(() => {
@@ -170,6 +171,9 @@ function App() {
 
   // Xu ly lat bai
   function XuLyLatBai() {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       listBox.forEach((div, index) => {
         if (index === 0) {
@@ -201,6 +205,9 @@ function App() {
   }
 
   const handleScore = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       listBox.forEach((div, i) => {
         if (i == 0) {
@@ -236,6 +243,9 @@ function App() {
   };
 
   const handleScore2 = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       listBox.forEach((div, i) => {
         if (i == 1) {
@@ -278,6 +288,9 @@ function App() {
   };
 
   const handleReturn = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       listBox.forEach((div: HTMLElement, i: number) => {
         if (i === 0) {
@@ -295,6 +308,9 @@ function App() {
   };
 
   const handleReturn2 = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       listBox.forEach((div: HTMLElement, i: number) => {
         if (i === 1) {
@@ -312,6 +328,9 @@ function App() {
   };
 
   const handleCardThree = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       return listBox.forEach((div: HTMLElement, i: number) => {
         if (i == 4) {
@@ -364,6 +383,9 @@ function App() {
   };
 
   const handleCardThreeBanker = () => {
+    const listBox = Array.from(
+      document.getElementsByClassName("box") as HTMLCollectionOf<HTMLElement>
+    );
     return new Promise<void>((resolve) => {
       return listBox.forEach((div: HTMLElement, i: number) => {
         if (i == 5) {
