@@ -113,18 +113,19 @@ function App() {
     return box?.map((item, index) => {
       return (
         <div className="box" id={item.v} key={index}>
-          <img src="./src/assets/images/hidden.png" className="front" />
+          <img src={`${process.env.PUBLIC_URL}/assets/images/hidden.png`} className="front" />
 
           <div
             className="back"
             style={{
-              backgroundImage: `url(./src/assets/images/${item.f}.png)`,
+              backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/${item.f}.png)`,
             }}
           ></div>
         </div>
       );
     });
   };
+
 
   // handle Fill Card
   const handleFillCard = (ele: HTMLElement, top: string, right: string) => {
