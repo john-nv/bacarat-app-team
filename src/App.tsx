@@ -77,6 +77,13 @@ function App() {
     banker: null,
   });
 
+  useEffect(() => {
+    console.log(scorePlayer)
+  
+   
+  }, [scorePlayer])
+  
+
   // check APIkey path Url
   useEffect(() => {
     checkApiParam();
