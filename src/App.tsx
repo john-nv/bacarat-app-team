@@ -124,7 +124,7 @@ function App() {
         </div>
       );
     });
-  };
+  }; 
 
 
   // handle Fill Card
