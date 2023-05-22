@@ -108,23 +108,22 @@ function App() {
     setBox(newArr);
   };
 
-  // render Box
   const renderBox = () => {
     return box?.map((item, index) => {
       return (
         <div className="box" id={item.v} key={index}>
-          <img src={`${process.env.PUBLIC_URL}/assets/images/hidden.png`} className="front" />
+          <img src="./src/assets/images/hidden.png" className="front" />
 
           <div
             className="back"
             style={{
-              backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/${item.f}.png)`,
+              backgroundImage: `url(./src/assets/images/${item.f}.png)`,
             }}
           ></div>
         </div>
       );
     });
-  }; 
+  };
 
 
   // handle Fill Card
